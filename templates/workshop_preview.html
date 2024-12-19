@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            padding: 10px; 
+            padding: 10px;
             background-color: #ffffff;
             line-height: 1.4;
             font-size: 12px;
@@ -51,7 +51,7 @@
 
         th,
         td {
-            border: 1px solid #ffffff;
+            border: 1px solid #0f0f0f;
             padding: 8px 10px;
             /* Reduce padding */
             text-align: left;
@@ -118,7 +118,7 @@
 
 <body>
     <div class="container">
-        <h1>Event Preview: {{ event_id }}</h1>
+        <h1>Workshop Preview: {{ workshop_id }}</h1>
 
         <div class="section">
             <h2>Secretary Details</h2>
@@ -221,17 +221,19 @@
             </table>
         </div>
         <div class="signature">
-            <h3>Speaker's Signature</h3>
+            <h2 style="margin-top: 24px;">Signature of the Speaker</h2>
             {% if form_data.speaker_signature %}
-                <!-- If signature is stored as an image URL -->
-                <img src="{{ form_data.speaker_signature }}" alt="Speaker Signature" style="max-width: 200px; max-height: 100px;">
-                <!-- If signature is stored as a base64-encoded image -->
-                <!-- <img src="data:image/png;base64,{{ form_data.speaker_signature }}" alt="Speaker Signature" style="max-width: 200px; max-height: 100px;"> -->
+            <!-- If signature is stored as an image URL -->
+            <img src="{{ form_data.speaker_signature }}" alt="Speaker's Signature"
+                style="width: 150px; height: 70px; margin-top: -4px; border: 1px solid #ccc; object-fit: contain;">
+
+            <!-- If signature is stored as a base64-encoded image -->
+            <!-- <img src="data:image/png;base64,{{ form_data.speaker_signature }}" alt="Speaker Signature" style="max-width: 200px; max-height: 100px;"> -->
             {% else %}
-                <p>No signature available</p>
+            <p>No signature available</p>
             {% endif %}
         </div>
-        
+
 
     </div>
 </body>

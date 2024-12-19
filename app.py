@@ -90,7 +90,7 @@ def search_event_admin():
                 return render_template('edit_event.html', event=None, error="Event not found.")
 
         # Check if the search ID starts with "PPST" for presentation
-        elif event_id.startswith("PPST"):
+        elif event_id.startswith("PRPN"):
             # Fetch presentation data from the database
             presentation = presentation_collection.find_one({"presentation_id": event_id})
             if presentation:
@@ -199,7 +199,8 @@ def save_workshop():
         # Update the database with the modified workshop data
         workshop_collection.replace_one({"workshop_id": workshop_id}, updated_workshop)
 
-        return jsonify({"message": "Workshop updated successfully."}), 200
+        # return jsonify({"message": "Workshop updated successfully."}), 200
+        return render_template('index.html')
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -289,7 +290,8 @@ def save_event():
         # Save to database
         event_collection.replace_one({"event_id": event_id}, updated_event)
 
-        return jsonify({"message": "Event updated successfully."}), 200
+        # return jsonify({"message": "Event updated successfully."}), 200
+        return render_template('index.html')
 
     except Exception as e:
         app.logger.error(f"Error in save_event: {e}")
@@ -359,7 +361,8 @@ def save_presentation():
         # Update the database with the modified presentation data
         presentation_collection.replace_one({"presentation_id": presentation_id}, updated_presentation)
 
-        return jsonify({"message": "Presentation updated successfully."}), 200
+        # return jsonify({"message": "Presentation updated successfully."}), 200
+        return render_template('index.html')
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -896,40 +899,54 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/workshop-detail', methods=['GET', 'POST'])
 def workshop_detail():
     if request.method == 'POST':
-        # Collect form data
-        workshop_details = {
-            'secretary_name': request.form['secretary_name'],
-            'secretary_roll_number': request.form['secretary_roll_number'],
-            'secretary_mobile': request.form['secretary_mobile'],
-            'convenor_name': request.form['convenor_name'],
-            'convenor_roll_number': request.form['convenor_roll_number'],
-            'convenor_mobile': request.form['convenor_mobile'],
-            'faculty_advisor_name': request.form['faculty_advisor_name'],
-            'faculty_advisor_designation': request.form['faculty_advisor_designation'],
-            'faculty_advisor_contact': request.form['faculty_advisor_contact'],
-            'speaker_name': request.form['speaker_name'],
-            'speaker_designation': request.form['speaker_designation'],
-            'speaker_contact': request.form['speaker_contact']
-        }
+        print(request.form)
+        if request.is_json:
+            # Handle JSON data (from localStorage)
+            workshop_details = request.get_json()
+            
+            # Decode and save the Base64 file if present
+            if 'speaker_signature_base64' in workshop_details:
+                import base64
+                from io import BytesIO
+                base64_data = workshop_details.pop('speaker_signature_base64')
+                decoded_file = BytesIO(base64.b64decode(base64_data))
+                filename = f"{workshop_details.get('speaker_name', 'unknown')}_signature"
+                file_id = fs.put(decoded_file, filename=filename)
+                workshop_details['speaker_signature_id'] = file_id
 
-        # Handle file upload for the speaker's signature
-        file = request.files['speaker_signature']
-        
-        # If no file is selected
-        if file.filename == '':
-            return 'No selected file'
-        
-        # If a file is selected and it's allowed
-        if file and allowed_file(file.filename):
-            # Secure the filename
-            filename = secure_filename(file.filename)
-            # Save the file to the 'static/images' folder
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return 'File successfully uploaded'
-        
+            # Insert details into MongoDB
+            db.workshop_collection.insert_one(workshop_details)
+            return jsonify({'message': 'Workshop details saved successfully!'}), 200
+
+        else:
+            # Handle form submission
+            workshop_details = {
+                'secretary_name': request.form['secretary_name'],
+                'secretary_roll_number': request.form['secretary_roll_number'],
+                'secretary_mobile': request.form['secretary_mobile'],
+                'convenor_name': request.form['convenor_name'],
+                'convenor_roll_number': request.form['convenor_roll_number'],
+                'convenor_mobile': request.form['convenor_mobile'],
+                'faculty_advisor_name': request.form['faculty_advisor_name'],
+                'faculty_advisor_designation': request.form['faculty_advisor_designation'],
+                'faculty_advisor_contact': request.form['faculty_advisor_contact'],
+                'speaker_name': request.form['speaker_name'],
+                'speaker_designation': request.form['speaker_designation'],
+                'speaker_contact': request.form['speaker_contact'],
+                'speaker_signature': request.form['speaker_signature'],
+            }
+
+            
+           
+
+            # Insert into MongoDB
+            db.workshop_collection.insert_one(workshop_details)
+            return render_template('workshop_success.html', message="Workshop details saved successfully!")
+
     return render_template('workshop_detail.html')
 
 @app.route('/workshop', methods=['GET', 'POST'])
@@ -1384,6 +1401,7 @@ def presentation_page():
             'time_slot': request.form.get('time_slot'),
             'extension_boxes': request.form.get('extension_boxes'),
             'extension_box_reason': request.form.get('extension_box_reason'),
+            'extension_box':request.form.get('extension_box'), 
         }
         # Store the collected data in the session
         session['presentation_data'] = presentation_data

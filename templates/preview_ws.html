@@ -71,12 +71,14 @@
                             </tr>
                         `;
                     } else if (value) {
-                        workshopDetailsHTML += `
-                            <tr>
-                                <td>${formatKey(key)}</td>
-                                <td>${value}</td>
-                            </tr>
-                        `;
+    if (key !== 'speaker_signature') {
+        workshopDetailsHTML += `
+            <tr>
+                <td>${formatKey(key)}</td>
+                <td>${value}</td>
+            </tr>
+        `;
+    }
                     }
                 });
                 workshopDetailsHTML += `

@@ -171,14 +171,14 @@
                 </tr>
                 <tr>
                     <td colspan="5"><input type="number" name="participants" placeholder="Enter number of participants"
-                            min="1"></td>
+                            min="1" required></td>
                 </tr>
                 <tr>
                     <th colspan="5">Proposing Fees(MIN:Rs.300 MAX:Rs.1000)</th>
                 </tr>
                 <tr>
                     <td colspan="5">
-                        <input type="number" name="proposing_fee" placeholder="Enter proposing fee" min="0">
+                        <input type="number" name="proposing_fee" placeholder="Enter proposing fee" min="0" required>
                     </td>
                 </tr>
                 <tr>
@@ -209,7 +209,7 @@
                     <th colspan="5">Duration of the Workshop</th>
                 </tr>
                 <tr>
-                    <td colspan="5"><input type="text" name="duration" placeholder="Specify duration"></td>
+                    <td colspan="5"><input type="text" name="duration" placeholder="Specify duration" required></td>
                 </tr>
 
                 <!-- Participant Type -->
@@ -231,7 +231,8 @@
                 <!-- Halls -->
                 <tr>
                     <th>Halls Required</th>
-                    <th colspan="4"><input type="number" name="halls_required" placeholder="Specify halls required">
+                    <th colspan="4"><input type="number" name="halls_required" placeholder="Specify halls required"
+                            required>
                     </th>
                 </tr>
 

@@ -7,34 +7,93 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/workshop_details.css') }}">
     <title>Workshop Details Page</title>
     <script>
-        // Function to save workshop details in localStorage
         function saveWorkshopDetails() {
             const form = document.getElementById('workshopDetailsForm');
             const formData = new FormData(form);
             const workshopDetails = {};
+            const promises = []; // Array to track asynchronous operations
+
+            console.log("FormData---", formData, form);
 
             // Collect form data and create an object
             formData.forEach((value, key) => {
-                workshopDetails[key] = value;
+                console.log("FormData222---", key, value);
+                if (key === 'speaker_signature' && value instanceof File) {
+                    console.log("FormData333---", key, value);
+                    const promise = new Promise((resolve, reject) => {
+                        const reader = new FileReader(); // Move FileReader inside the promise
+                        reader.onload = function (event) {
+                            console.log("FormData444---", event.target.result);
+                            workshopDetails[key] = event.target.result; // Base64 string
+                            resolve(); // Mark the promise as resolved
+                        };
+                        reader.onerror = function (error) {
+                            reject(error); // Reject the promise on error
+                        };
+                        reader.readAsDataURL(value); // Start reading the file
+                    });
+                    promises.push(promise); // Add the promise to the array
+                } else {
+                    workshopDetails[key] = value; // Directly add non-file fields
+                }
             });
 
-            // Save workshop details to localStorage
+            // Wait for all promises to resolve before saving to localStorage
+            Promise.all(promises)
+                .then(() => {
+                    console.log("Final Workshop Details:", workshopDetails);
+                    saveToLocalStorage(workshopDetails);
+                })
+                .catch((error) => {
+                    console.error("Error processing files:", error);
+                });
+        } // // Function to save workshop details in localStorage
+        // function saveWorkshopDetails() {
+        //     const form = document.getElementById('workshopDetailsForm');
+        //     const formData = new FormData(form);
+        //     const workshopDetails = {};
+        //     console.log("FormData---", formData, form);
+
+        //     // Collect form data and create an object
+        //     formData.forEach(async (value, key) => {
+        //         console.log("FormData222---", key, value);
+        //         if (key === 'speaker_signature' && value instanceof File) {
+        //             console.log("FormData333---", key, value);
+        //             const reader = new FileReader();
+        //             reader.onload = await function (event) {
+        //                 console.log("FormData444---", event.target.result);
+        //                 workshopDetails[key] = event.target.result; // Base64 string
+        //             };
+        //             reader.readAsDataURL(value); // Convert to Base64
+        //         } else {
+        //             workshopDetails[key] = value;
+        //         }
+        //     });
+        //     console.log("Workeee", workshopDetails)
+
+        //     // Save workshop details without waiting for image processing
+        //     saveToLocalStorage(workshopDetails);
+        // }
+
+        // Save workshop details to localStorage
+        function saveToLocalStorage(workshopDetails) {
             try {
+                console.log("Workeee22", workshopDetails)
+
+
                 localStorage.setItem('workshopDetails', JSON.stringify(workshopDetails));
                 alert('Workshop details saved successfully!');
+                // Navigate to the next page (workshop.html)
+                window.location.href = './workshop';
             } catch (e) {
                 alert('Error saving workshop details to localStorage.');
             }
-
-            // Navigate to the next page (workshop.html)
-            window.location.href = './workshop';
         }
 
         window.onload = function () {
             // Check if localStorage is available
-            if (typeof(Storage) !== "undefined") {
+            if (typeof (Storage) !== "undefined") {
                 const storedWorkshopDetails = localStorage.getItem("workshopDetails");
-
                 if (storedWorkshopDetails) {
                     const workshopDetails = JSON.parse(storedWorkshopDetails);
 
@@ -42,7 +101,7 @@
                     const form = document.getElementById("workshopDetailsForm");
                     for (const [key, value] of Object.entries(workshopDetails)) {
                         const input = form.querySelector(`[name=${key}]`);
-                        if (input) {
+                        if (input && input.type !== 'file') {
                             input.value = value;
                         }
                     }
@@ -57,7 +116,8 @@
 <body>
     <div class="container">
         <h1>Workshop Details</h1>
-        <form id="workshopDetailsForm" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); saveWorkshopDetails();">
+        <form id="workshopDetailsForm" method="POST" action="/workshop" enctype="multipart/form-data"
+            onsubmit="event.preventDefault(); saveWorkshopDetails();">
             <!-- Secretary Details -->
             <h3>Secretary Details:</h3>
             <table>
@@ -187,7 +247,7 @@
                 </tr>
                 <tr>
                     <th>E-signature</th>
-                    <td><input type="file" name="speaker_signature" accept="image/*,application/pdf" required></td>
+                    <td><input type="file" name="speaker_signature" accept="image/*,application/pdf"></td>
                 </tr>
             </table>
 

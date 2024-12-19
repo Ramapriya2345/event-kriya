@@ -10,6 +10,7 @@
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -52,13 +53,13 @@
 
         .kriya-logo {
             width: 200px;
-            margin: 20px auto;
+            margin: 2px auto;
         }
 
         .sub-text {
             font-style: italic;
             font-size: 14px;
-            margin-top: -10px;
+            margin-top: -20px !important;
         }
 
         .details {
@@ -70,17 +71,16 @@
 <body>
     <div class="container">
         <!-- PSG College Logo -->
-        <img src="http://localhost:5000/static/images/psg.png" alt="PSG Logo" class="logo">
+        <img src="http://localhost:5000/static/images/psg.png" alt="PSG Logo" class="logo" style="margin-top: 40px;width: 200px;height: 50px ;">
 
         <!-- College Name and Union -->
-        <h1>PSG College of Technology</h1>
         <h2>Students Union 2024-25</h2>
 
         <!-- KRIYA Logo -->
         <img src="http://localhost:5000/static/images/kriya.png" alt="KRIYA Logo" class="kriya-logo">
 
         <!-- KRIYA Subtitle -->
-        <p class="sub-text">The Global Clash of Techno Talentz</p>
+        <p class="sub-text" style="font-weight: bold; font-size:xx-large;margin-top: -20px;">The Global Clash of Techno Talentz</p>
 
         <!-- Event Details -->
         <h3>KRIYA 2K25</h3>
@@ -88,7 +88,7 @@
         <h3>Workshops</h3>
     </div>
     <div class="details">
-        <p><span>ASSOCIATION NAME</span> : {{ association_name }}</p>
+        <p><span >ASSOCIATION NAME</span> : {{ association_name }}</p>
         <p><span>WORKSHOP NAME</span> : {{workshop_name }}</p>
     </div>
 </body>
