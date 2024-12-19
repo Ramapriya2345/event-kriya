@@ -35,7 +35,7 @@ PASSWORD = 'admin'
 
 
 # Home route (index page)
-@app.route('/index')
+@app.route('/index') 
 def index():
     if not session.get('logged_in'):  # Check if the user is logged in
         return redirect(url_for('login'))  # If not logged in, redirect to login page
@@ -2311,5 +2311,5 @@ def delete_image(image_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001)
 
