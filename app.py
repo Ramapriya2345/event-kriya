@@ -1936,7 +1936,7 @@ def download_pdf():
         pdf_filepaths.append(pdf_filepath_page_6)
 
         # Merge the PDFs
-        merged_pdf_filename = f"{event_id}_combined.pdf"
+        merged_pdf_filename = f"{event_id}.pdf"
         merged_pdf_filepath = os.path.join('static', 'uploads', merged_pdf_filename)
 
         # Use PdfMerger to combine PDFs
@@ -2089,7 +2089,7 @@ def download_pdf1():
 
 
         # Merge the PDFs
-        merged_pdf_filename = f"{workshop_id}_combined.pdf"
+        merged_pdf_filename = f"{workshop_id}.pdf"
         merged_pdf_filepath = os.path.join('static', 'uploads', merged_pdf_filename)
 
         # Use PdfMerger to combine PDFs
@@ -2220,7 +2220,7 @@ def download_pdf2():
 
 
         # Merge the PDFs
-        merged_pdf_filename = f"{presentation_id}_combined.pdf"
+        merged_pdf_filename = f"{presentation_id}.pdf"
         merged_pdf_filepath = os.path.join('static', 'uploads', merged_pdf_filename)
 
         # Use PdfMerger to combine PDFs
