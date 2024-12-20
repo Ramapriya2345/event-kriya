@@ -1269,36 +1269,36 @@ def generate_pdf_ws(filepath, event_data):
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
     start_y -= 20
     pdf.setFont("Helvetica", 10)
-    pdf.drawString(start_x + 10, start_y, f"EXPECTED NO. OF PARTICIPANTS:{event_data.get('participants','N/A')}")
+    pdf.drawString(start_x + 10, start_y, f"EXPECTED NO. OF PARTICIPANTS: {event_data.get('participants','N/A')}")
     start_y -= 20
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
     start_y -= line_height
-    pdf.drawString(start_x + 10, start_y, f"PROPOSING FEES:{event_data.get('proposing_fee','N/A')}")
-    pdf.drawString(start_x + 10, start_y - 20, f"Justification:{event_data.get('proposing_fees_justification','N/A')} ")
+    pdf.drawString(start_x + 10, start_y, f"PROPOSING FEES: {event_data.get('proposing_fee','N/A')}")
+    pdf.drawString(start_x + 10, start_y - 20, f"Justification: {event_data.get('proposing_fees_justification','N/A')} ")
 
     # Line separator
     start_y -= 40
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
 
     start_y -= 20
-    pdf.drawString(start_x + 10, start_y, f"SPEAKER REMUNERATION (if any)(With justification):{event_data.get('speaker_remuneration','N/A')}")
-    pdf.drawString(start_x + 10, start_y - 20, f"Justification:{event_data.get('speaker_remuneration_justification','N/A')} ")
+    pdf.drawString(start_x + 10, start_y, f"SPEAKER REMUNERATION (if any)(With justification): {event_data.get('speaker_remuneration','N/A')}")
+    pdf.drawString(start_x + 10, start_y - 20, f"Justification: {event_data.get('speaker_remuneration_justification','N/A')} ")
     start_y -= 40
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
 
     # Number of Halls/Labs
     start_y -= 30
-    pdf.drawString(start_x + 10, start_y, f"NUMBER OF HALLS/LABS REQUIRED:{event_data.get('halls_required','N/A')}")
+    pdf.drawString(start_x + 10, start_y, f"NUMBER OF HALLS/LABS REQUIRED: {event_data.get('halls_required','N/A')}")
     start_y -= line_height
-    pdf.drawString(start_x + 10, start_y, f"HALLS/LABS PREFERRED:{event_data.get('preferred_halls','N/A')}")
+    pdf.drawString(start_x + 10, start_y, f"HALLS/LABS PREFERRED: {event_data.get('preferred_halls','N/A')}")
     start_y -= line_height
-    pdf.drawString(start_x + 10, start_y, f"Reason:{event_data.get('hall_reason','N/A')}")
+    pdf.drawString(start_x + 10, start_y, f"Reason: {event_data.get('hall_reason','N/A')}")
     start_y -= 50
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
 
     # Duration of the Event
     start_y -= 20
-    pdf.drawString(start_x + 10, start_y, f"DURATION OF THE EVENT IN HOURS:{event_data.get('duration')}")
+    pdf.drawString(start_x + 10, start_y, f"DURATION OF THE EVENT IN HOURS: {event_data.get('duration')}")
     start_y -= 20
     pdf.line(start_x, start_y, width - start_x, start_y)  # Horizontal line
 
@@ -1745,7 +1745,7 @@ def generate_pdf_content_pp(filepath,event_data):
     pdf.line(margin - 20, height - 310, width - margin, height - 310)
 
     # Draw radio buttons for duration
-    pdf.drawString(margin, height - 330, f"Duration of the Event in Hours:{event_data.get('duration', '')}")
+    pdf.drawString(margin, height - 330, f"Duration of the Event in Hours: {event_data.get('duration', '')}")
     pdf.drawString(margin + 20, height - 350, "Slot 1: 9:30 to 12:30")
     pdf.circle(margin + 160, height - 345, 5,  fill=1 if event_data.get("time_slot") == "slot_1" else 0)
     pdf.drawString(margin + 20, height - 370, "Slot 2: 1:30 to 4:30")
