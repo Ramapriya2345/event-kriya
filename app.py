@@ -751,8 +751,8 @@ def generate_and_save_pdf_page4(filepath, event_data):
 
     # Vertical lines
     vertical_line_x = margin + padding
-    pdf.line(margin, height - 40, margin, height - 540)
-    pdf.line(width - margin, height - 40, width - margin, height - 540)
+    pdf.line(margin, height - 40, margin, height - 521)
+    pdf.line(width - margin, height - 40, width - margin, height - 521)
 
     y_pos = height - 60
 
