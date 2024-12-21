@@ -236,12 +236,20 @@ main {
         justify-content: space-between;
         /* Ensure space distribution */
         padding: 10px;
+        margin-bottom: 40px;
     }
 
     .page-header .kriya-logo img {
         max-width: 80px;
+        margin-top: 6px;
         /* Reduce image size for smaller screens */
     }
+    .page-header .logo img {
+        margin-top: 10px;
+        max-width: 80px;
+        /* Reduce image size for smaller screens */
+    }
+
 
     .page-header .logo img {
         max-width: 150px;
@@ -307,5 +315,3 @@ main {
         font-size: 16px;
     }
 }
-
-/* Extra Small Devices (Phones) */
