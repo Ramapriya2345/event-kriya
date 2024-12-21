@@ -35,12 +35,23 @@ PASSWORD = 'admin'
 
 
 # Home route (index page)
-@app.route('/index') 
+@app.route('/index')
 def index():
     if not session.get('logged_in'):  # Check if the user is logged in
         return redirect(url_for('login'))  # If not logged in, redirect to login page
-    return render_template('index.html')
 
+    # Fetch data from MongoDB
+    events = list(event_collection.find({}, {'_id': 0, 'event_id': 1, 'event_name': 1}))  # Fetch event_id and event_name fields
+    workshops = list(workshop_collection.find({}, {'_id': 0, 'workshop_id': 1, 'workshop_name': 1}))
+    presentations = list(presentation_collection.find({}, {'_id': 0, 'presentation_id': 1, 'presentation_name': 1}))
+
+    # Render the search_event.html template with data
+    return render_template(
+        'index.html',
+        events=events,
+        workshops=workshops,
+        presentations=presentations
+    )
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -2306,8 +2317,6 @@ def delete_image(image_id):
         return jsonify({'error': 'Image not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
 
 
 if __name__ == '__main__':

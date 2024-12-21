@@ -5,16 +5,206 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Event</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        /* Header and Search Bar */
+        .search-bar {
+            background-color: #dbe7db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input[type="text"] {
+            padding: 12px;
+            width: 30%;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 12px 25px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #34495e;
+        }
+
+        /* Main Content */
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Event Table Styles */
+        .event-table thead {
+            background-color: #FFDAB9; /* Pastel orange */
+            color: #333;
+        }
+
+        .event-table tbody tr:nth-child(even) {
+            background-color: #fcf7f3; /* Light pastel orange */
+        }
+
+        /* Workshop Table Styles */
+        .workshop-table thead {
+            background-color: #e5c1fd; /* Pastel purple */
+            color: #333;
+        }
+
+        .workshop-table tbody tr:nth-child(even) {
+            background-color: #f9f4fc; /* Light pastel purple */
+        }
+
+        /* Presentation Table Styles */
+        .presentation-table thead {
+            background-color: #ddfadd; /* Pastel green */
+            color: #333;
+        }
+
+        .presentation-table tbody tr:nth-child(even) {
+            background-color: #f4fdf4; /* Light pastel green */
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Scrollable Table Wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Search Here!!</h2>
+    <!-- Search Bar Section -->
+    <div class="search-bar">
         <form action="/search_event_admin" method="POST">
-            <input type="text" name="event_id" placeholder="Enter ID" required>
+            <input type="text" name="event_id" placeholder="Enter Event ID" required>
             <button type="submit">Search</button>
         </form>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="content">
+        <!-- Event Table -->
+        <h3 style="border-bottom:2px solid rgb(196, 71, 25);">Events</h3>
+        <div class="table-wrapper">
+            <table class="event-table">
+                <thead>
+                    <tr>
+                        <th>Event ID</th>
+                        <th>Event Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.event_id }}</td>
+                        <td>{{ event.event_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Workshop Table -->
+        <h3 style="border-bottom:2px solid purple;">Workshops</h3>
+        <div class="table-wrapper">
+            <table class="workshop-table">
+                <thead>
+                    <tr>
+                        <th>Workshop ID</th>
+                        <th>Workshop Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for workshop in workshops %}
+                    <tr>
+                        <td>{{ workshop.workshop_id }}</td>
+                        <td>{{ workshop.workshop_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Presentation Table -->
+        <h3 style="border-bottom:2px solid #4CAF50;">Presentations</h3>
+        <div class="table-wrapper">
+            <table class="presentation-table">
+                <thead>
+                    <tr>
+                        <th>Presentation ID</th>
+                        <th>Presentation Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for presentation in presentations %}
+                    <tr>
+                        <td>{{ presentation.presentation_id }}</td>
+                        <td>{{ presentation.presentation_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 
