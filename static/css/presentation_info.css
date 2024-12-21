@@ -53,7 +53,7 @@ body {
     padding: 12px;
     border: 1px solid #34c974;
     /* Updated color */
-    background: #fdfaeb;
+    background: #fdfcf5;
     border-radius: 8px;
     font-size: 14px;
     outline: none;
@@ -70,7 +70,7 @@ body {
 .btn {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #34c974, #2e7d50);
+    background: linear-gradient(135deg, #5abd85, #2e7d50);
     /* Updated color */
     color: #fff;
     border: none;
