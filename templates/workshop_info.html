@@ -7,15 +7,71 @@
     <title>Workshop Information</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/workshop_info.css') }}">
 </head>
-
+<style>
+    /* Dropdown Container Styling */
+    .dropdown-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    /* Input Styling */
+   
+    /* Dropdown List Styling */
+    .association-dropdown {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 200px; /* Prevent dropdown from going out of view */
+        overflow-y: auto; /* Scroll if the list is too long */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        position: absolute;
+        width: 100%;
+        top: 100%; /* Dropdown starts below the input */
+        left: 0;
+        z-index: 1000;
+        display: none; /* Hidden by default */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Dropdown List Item Styling */
+    .association-dropdown li {
+        padding: 8px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    /* Hover Effect */
+    .association-dropdown li:hover {
+        background-color: #f0f0f0;
+    }
+    
+    /* Ensure Dropdown Doesn't Overflow the Page */
+    .association-dropdown {
+        overflow-y: auto;
+        max-height: 200px;
+    }
+    </style>
 <body>
     <div class="event-info-form">
         <h3>Workshop Information</h3>
         <form id="workshopForm">
             <div class="form-group">
                 <label for="association-name">Association Name:</label>
-                <input type="text" id="association-name" name="association_name" placeholder="Enter Association Name"
-                    required>
+                <div class="dropdown-container">
+                    <input 
+                        type="text" 
+                        id="association-name" 
+                        name="association_name" 
+                        placeholder="Type to search association..." 
+                        oninput="filterAssociations()" 
+                        required 
+                        autocomplete="off"
+                        style="border: 1px solid #6a1b9a;"
+                    >
+                    <ul id="association-list" class="association-dropdown"></ul>
+                </div>
             </div>
             <div class="form-group">
                 <label for="workshop-name">Workshop Name:</label>
@@ -26,6 +82,73 @@
     </div>
 
     <script>
+         const associations = [
+    "Apparel & Fashion Design Association",
+    "Applied Science Association",
+    "Automobile Engineering Association",
+    "Biomedical Engineering Association",
+    "Biotechnology Association",
+    "Civil Engineering Association",
+    "Computational Sciences Association",
+    "Computer Applications Association",
+    "Computer Science & Engg Association",
+    "Electrical & Electronics Engineering Association",
+    "Electronics & Communication Engg Association",
+    "Fashion Technology Association",
+    "Information Technology Association",
+    "Instrumentation & Control Systems Engineering Association",
+    "Mechanical Engineering Association",
+    "Metallurgical Engineering Association",
+    "Production Engineering Association",
+    "Robotics & Automation Engineering Association",
+    "Textile Technology Association",
+    "IEEE EMBS Student Branch",
+    "Indian Concrete Institute (Students Chapter)",
+    "Indian Green Building Council (Students Chapter)",
+    "Institute of Electrical & Electronics Engg",
+    "International Society of Automation (ISA) (Student Section)",
+    "ISHRAE (Students Chapter)",
+    "ISTE (Students Chapter)",
+    "Ramanujan Association of Mathematics",
+    "Sir C V Raman Physics Association",
+    "Aeronautical Association",
+    "Society of Automotive Engineers (SAE) (Collegiate Chapter)",
+    "Society of Manufacturing Engineers",
+    "Solar Energy Society of India (Students Chapter)",
+    "The Indian Institute of Metals (Students Affiliate Chapter)",
+    "The Institution of Electronics & Telecommunication Engineers (Stu)"
+];
+
+// Filter Associations
+function filterAssociations() {
+    const input = document.getElementById('association-name').value.toLowerCase();
+    const list = document.getElementById('association-list');
+    list.innerHTML = ''; // Clear previous suggestions
+    list.style.display = 'none'; // Hide dropdown initially
+
+    if (input) {
+        const filteredAssociations = associations.filter(association => 
+            association.toLowerCase().includes(input)
+        );
+
+        if (filteredAssociations.length > 0) {
+            list.style.display = 'block'; // Show dropdown if matches found
+        }
+
+        filteredAssociations.forEach(association => {
+            const listItem = document.createElement('li');
+            listItem.textContent = association;
+            listItem.onclick = () => selectAssociation(association);
+            list.appendChild(listItem);
+        });
+    }
+}
+
+// Select Association
+function selectAssociation(association) {
+    document.getElementById('association-name').value = association;
+    document.getElementById('association-list').style.display = 'none';
+}
         // Access form and input elements
         const form = document.getElementById("workshopForm");
         const associationInput = document.getElementById("association-name");
