@@ -120,11 +120,13 @@
                     <td>{{ form_data.secretary1_roll_number }}</td>
                     <td>{{ form_data.secretary1_mobile }}</td>
                 </tr>
-                <tr>
-                    <td>{{ form_data.secretary2_name }}</td>
-                    <td>{{ form_data.secretary2_roll_number }}</td>
-                    <td>{{ form_data.secretary2_mobile }}</td>
-                </tr>
+               {% if form_data.secretary2_name and form_data.secretary2_roll_number and form_data.secretary2_mobile %}
+<tr>
+    <td>{{ form_data.secretary2_name }}</td>
+    <td>{{ form_data.secretary2_roll_number }}</td>
+    <td>{{ form_data.secretary2_mobile }}</td>
+</tr>
+{% endif %}
             </table>
         </div>
 
