@@ -1585,6 +1585,7 @@ def view_preview_pp():
         # Fetch form data for rendering in event_preview.html
         association_name = presentation_datas.get("association_name")
         presentation_name = presentation_datas.get("presentation_name")
+        items = presentation_datas.get("items", [])
 
         form_data = presentation_datas.get("details", {})
         event_data = presentation_datas.get("form", {})
@@ -1641,18 +1642,18 @@ def view_preview_pp():
         pdf_filenames_pp.append(pdf_filename_page_4)
         pdf_filepaths_pp.append(pdf_filepath_page_4)
 
-        # html_content_page_5 = render_template(
-        #     'items_preview.html',
-        #     presentation_id=presentation_id,
-        #     items=items,
-        #     presentation_datas=presentation_datas
-        # )
-        # pdf_output_page_5 = generate_pdf(html_content_page_5)
-        # pdf_filename_page_5 = generate_unique_filename("presentation_page5")
-        # pdf_filepath_page_5 = os.path.join('static', 'uploads', pdf_filename_page_5)
-        # save_pdf(pdf_output_page_5, pdf_filepath_page_5)
-        # pdf_filenames_pp.append(pdf_filename_page_5)
-        # pdf_filepaths_pp.append(pdf_filepath_page_5)
+        html_content_page_5 = render_template(
+            'items_preview.html',
+            presentation_id=presentation_id,
+            items=items,
+            presentation_datas=presentation_datas
+        )
+        pdf_output_page_5 = generate_pdf(html_content_page_5)
+        pdf_filename_page_5 = generate_unique_filename("presentation_page5")
+        pdf_filepath_page_5 = os.path.join('static', 'uploads', pdf_filename_page_5)
+        save_pdf(pdf_output_page_5, pdf_filepath_page_5)
+        pdf_filenames_pp.append(pdf_filename_page_5)
+        pdf_filepaths_pp.append(pdf_filepath_page_5)
 
         html_content_page_6 = render_template(
             'presentation_last.html',
@@ -2146,7 +2147,7 @@ def download_pdf2():
         # Fetch form data for rendering in event_preview.html
         association_name = presentation_datas.get("association_name")
         presentation_name = presentation_datas.get("presentation_name")
-
+        items = presentation_datas.get("items", [])
         form_data = presentation_datas.get("details", {})
         event_data = presentation_datas.get("form", {})
        
@@ -2202,18 +2203,18 @@ def download_pdf2():
         pdf_filenames_pp.append(pdf_filename_page_4)
         pdf_filepaths_pp.append(pdf_filepath_page_4)
 
-        # html_content_page_5 = render_template(
-        #     'items_preview.html',
-        #     presentation_id=presentation_id,
-        #     items=items,
-        #     presentation_datas=presentation_datas
-        # )
-        # pdf_output_page_5 = generate_pdf(html_content_page_5)
-        # pdf_filename_page_5 = generate_unique_filename("presentation_page5")
-        # pdf_filepath_page_5 = os.path.join('static', 'uploads', pdf_filename_page_5)
-        # save_pdf(pdf_output_page_5, pdf_filepath_page_5)
-        # pdf_filenames_pp.append(pdf_filename_page_5)
-        # pdf_filepaths_pp.append(pdf_filepath_page_5)
+        html_content_page_5 = render_template(
+            'items_preview.html',
+            presentation_id=presentation_id,
+            items=items,
+            presentation_datas=presentation_datas
+        )
+        pdf_output_page_5 = generate_pdf(html_content_page_5)
+        pdf_filename_page_5 = generate_unique_filename("presentation_page5")
+        pdf_filepath_page_5 = os.path.join('static', 'uploads', pdf_filename_page_5)
+        save_pdf(pdf_output_page_5, pdf_filepath_page_5)
+        pdf_filenames_pp.append(pdf_filename_page_5)
+        pdf_filepaths_pp.append(pdf_filepath_page_5)
 
         html_content_page_6 = render_template(
             'presentation_last.html',

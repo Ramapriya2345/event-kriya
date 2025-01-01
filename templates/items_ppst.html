@@ -42,7 +42,6 @@
                 <td>${rowCount}</td>
                 <td>
                     <select name="item_name" class="item-select" onchange="handleItemChange(this)">
-                        <option value="" disabled selected>Select Item</option>
                         <option value="A2 sheets">A2 sheets</option>
                         <option value="A3 sheets">A3 sheets</option>
                         <option value="A4 sheets">A4 sheets</option>
@@ -156,7 +155,7 @@
 
         // Load saved items from localStorage on page load
         window.onload = function () {
-            const savedItems = JSON.parse(localStorage.getItem("items"));
+            const savedItems = JSON.parse(localStorage.getItem("presentationItems"));
             if (savedItems && Array.isArray(savedItems)) {
                 savedItems.forEach(item => {
                     addRow();
@@ -201,7 +200,7 @@
             });
 
             // Save the items to localStorage
-            localStorage.setItem("items", JSON.stringify(items));
+            localStorage.setItem("presentationItems", JSON.stringify(items));
 
             window.location.href = './presentation_form'; // Redirect to summary page
         });

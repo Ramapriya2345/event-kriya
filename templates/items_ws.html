@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/items.css') }}">
-    <title>Items Required for Event</title>
+    <title>Workshop Items Required</title>
 </head>
 
 <body>
-    <h1>Items Required for Event</h1>
-    <form id="itemsForm">
-        <table id="itemsTable">
+    <h1>Workshop Items Required</h1>
+    <form id="workshopItemsForm">
+        <table id="workshopItemsTable">
             <thead>
                 <tr>
                     <th>S.NO.</th>
@@ -31,7 +31,7 @@
     </form>
 
     <script>
-        const itemsTable = document.getElementById("itemsTable").querySelector("tbody");
+        const workshopItemsTable = document.getElementById("workshopItemsTable").querySelector("tbody");
         let rowCount = 0;
 
         // Function to add a new row
@@ -42,7 +42,6 @@
                 <td>${rowCount}</td>
                 <td>
                     <select name="item_name" class="item-select" onchange="handleItemChange(this)">
-                        <option value="" disabled selected>Select Item</option>
                         <option value="A2 sheets">A2 sheets</option>
                         <option value="A3 sheets">A3 sheets</option>
                         <option value="A4 sheets">A4 sheets</option>
@@ -105,7 +104,7 @@
                 <td><input type="text" name="total_price" value="0" readonly></td>
                 <td><button type="button" onclick="deleteRow(this)">Delete</button></td>
             `;
-            itemsTable.appendChild(row);
+            workshopItemsTable.appendChild(row);
 
             const quantityInput = row.querySelector("input[name='quantity']");
             const priceInput = row.querySelector("input[name='price_per_unit']");
@@ -145,7 +144,7 @@
         // Update row numbers after deleting a row
         function updateRowNumbers() {
             rowCount = 0;
-            itemsTable.querySelectorAll("tr").forEach((row, index) => {
+            workshopItemsTable.querySelectorAll("tr").forEach((row, index) => {
                 rowCount++;
                 row.children[0].textContent = index + 1;
             });
@@ -154,13 +153,13 @@
         // Add initial row on page load
         document.getElementById("addRowButton").addEventListener("click", addRow);
 
-        // Load saved items from localStorage on page load
+        // Load saved workshop items from localStorage on page load
         window.onload = function () {
-            const savedItems = JSON.parse(localStorage.getItem("items"));
-            if (savedItems && Array.isArray(savedItems)) {
-                savedItems.forEach(item => {
+            const savedWorkshopItems = JSON.parse(localStorage.getItem("workshopItems"));
+            if (savedWorkshopItems && Array.isArray(savedWorkshopItems)) {
+                savedWorkshopItems.forEach(item => {
                     addRow();
-                    const lastRow = itemsTable.querySelector("tr:last-child");
+                    const lastRow = workshopItemsTable.querySelector("tr:last-child");
                     const inputs = lastRow.querySelectorAll("input, select");
 
                     inputs[0].value = item.item_name === "Other" ? "Other" : item.item_name;
@@ -176,11 +175,11 @@
         };
 
         // Handle form submission
-        document.getElementById("itemsForm").addEventListener("submit", (event) => {
+        document.getElementById("workshopItemsForm").addEventListener("submit", (event) => {
             event.preventDefault();
 
-            const items = [];
-            itemsTable.querySelectorAll("tr").forEach(row => {
+            const workshopItems = [];
+            workshopItemsTable.querySelectorAll("tr").forEach(row => {
                 const itemNameSelect = row.querySelector("select[name='item_name']").value;
                 const customItemName = row.querySelector("input[name='custom_item_name']").value;
                 const quantity = parseInt(row.querySelector("input[name='quantity']").value);
@@ -190,7 +189,7 @@
                 const finalItemName = itemNameSelect === "Other" ? customItemName : itemNameSelect;
 
                 if (finalItemName && quantity > 0 && pricePerUnit >= 0) {
-                    items.push({
+                    workshopItems.push({
                         sno: row.children[0].textContent,
                         item_name: finalItemName,
                         quantity: quantity,
@@ -200,8 +199,8 @@
                 }
             });
 
-            // Save the items to localStorage
-            localStorage.setItem("items", JSON.stringify(items));
+            // Save the workshop items to localStorage
+            localStorage.setItem("workshopItems", JSON.stringify(workshopItems));
 
             window.location.href = './workshop_summary'; // Redirect to summary page
         });

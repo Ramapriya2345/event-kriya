@@ -16,9 +16,8 @@
             position: relative;
             margin-bottom: 30px;
         }
-        
     </style>
- 
+
     <script>
         function formatKey(key) {
             return key
@@ -71,14 +70,14 @@
                             </tr>
                         `;
                     } else if (value) {
-    if (key !== 'speaker_signature') {
-        workshopDetailsHTML += `
+                        if (key !== 'speaker_signature') {
+                            workshopDetailsHTML += `
             <tr>
                 <td>${formatKey(key)}</td>
                 <td>${value}</td>
             </tr>
         `;
-    }
+                        }
                     }
                 });
                 workshopDetailsHTML += `
@@ -310,15 +309,15 @@
 
 <body>
     <div class="container">
-    <h1>Workshop Preview Page</h1>
-    <div id="associationName"></div>
-    <div id="workshopName"></div>
-    <div id="workshopDetails"></div>
-    <div id="workshopData"></div>
-    <div id="workshopItems"></div>
-    <div id="workshopFormData"></div>
-    <button onclick="submitWorkshopData()">Submit</button>
-</div>
+        <h1>Workshop Preview Page</h1>
+        <div id="associationName"></div>
+        <div id="workshopName"></div>
+        <div id="workshopDetails"></div>
+        <div id="workshopData"></div>
+        <div id="workshopItems"></div>
+        <div id="workshopFormData"></div>
+        <button onclick="submitWorkshopData()">Submit</button>
+    </div>
 </body>
 
 </html>
