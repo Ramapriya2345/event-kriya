@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/items_ws.css') }}">
-
-    <title>Items Required for Workshop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/items.css') }}">
+    <title>Items Required for Event</title>
 </head>
 
 <body>
-    <h1>Items Required for Workshop</h1>
+    <h1>Items Required for Event</h1>
     <form id="itemsForm">
         <table id="itemsTable">
             <thead>
@@ -41,7 +40,66 @@
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${rowCount}</td>
-                <td><input type="text" name="item_name" required></td>
+                <td>
+                    <select name="item_name" class="item-select" onchange="handleItemChange(this)">
+                        <option value="" disabled selected>Select Item</option>
+                        <option value="A2 sheets">A2 sheets</option>
+                        <option value="A3 sheets">A3 sheets</option>
+                        <option value="A4 sheets">A4 sheets</option>
+                        <option value="Acrylic paint (12 colours)">Acrylic paint (12 colours)</option>
+                        <option value="Ball point pen (Blue)">Ball point pen (Blue)</option>
+                        <option value="Balloon (nos)">Balloon (nos)</option>
+                        <option value="Brush set (Set of 5)">Brush set (Set of 5)</option>
+                        <option value="Cardboard (Big)">Cardboard (Big)</option>
+                        <option value="Cardboard (Small)">Cardboard (Small)</option>
+                          <option value="Cello tape (Big)">Cello tape (Big)</option>
+        <option value="Cello tape (Small)">Cello tape (Small)</option>
+        <option value="Chart (Black)">Chart (Black)</option>
+        <option value="Chart (Blue)">Chart (Blue)</option>
+        <option value="Chart (Green)">Chart (Green)</option>
+        <option value="Chart (Pink)">Chart (Pink)</option>
+        <option value="Chart (White)">Chart (White)</option>
+        <option value="Chart (Yellow)">Chart (Yellow)</option>
+        <option value="Chisel marker (Black)">Chisel marker (Black)</option>
+        <option value="Chisel marker (Blue)">Chisel marker (Blue)</option>
+        <option value="Chisel marker (Green)">Chisel marker (Green)</option>
+        <option value="Chisel marker (Purple)">Chisel marker (Purple)</option>
+        <option value="Chisel marker (Red)">Chisel marker (Red)</option>
+        <option value="Colour paper (Set of 5 colours)">Colour paper (Set of 5 colours)</option>
+        <option value="Colour pencils (12 colours)">Colour pencils (12 colours)</option>
+        <option value="Colour pens (Black)">Colour pens (Black)</option>
+        <option value="Colour pens (Green)">Colour pens (Green)</option>
+        <option value="Colour pens (Pink)">Colour pens (Pink)</option>
+        <option value="Colour pens (Purple)">Colour pens (Purple)</option>
+        <option value="Colour pens (Red)">Colour pens (Red)</option>
+        <option value="Crayons (Small 12 colours)">Crayons (Small 12 colours)</option>
+        <option value="Cutter (Big)">Cutter (Big)</option>
+        <option value="Cutter (Small)">Cutter (Small)</option>
+        <option value="Double side tape (nos)">Double side tape (nos)</option>
+        <option value="Eraser (nos)">Eraser (nos)</option>
+        <option value="Fevicol (250 ml)">Fevicol (250 ml)</option>
+        <option value="Fevicol (500 ml)">Fevicol (500 ml)</option>
+        <option value="Fevigum (20ml)">Fevigum (20ml)</option>
+        <option value="Glitter tape (nos)">Glitter tape (nos)</option>
+        <option value="Ice cream sticks">Ice cream sticks</option>
+        <option value="Paper cup (Big)">Paper cup (Big)</option>
+        <option value="Paper cup (Small)">Paper cup (Small)</option>
+        <option value="Pencil(nos)">Pencil(nos)</option>
+        <option value="Permanent marker (Black)">Permanent marker (Black)</option>
+        <option value="Permanent marker (Green)">Permanent marker (Green)</option>
+        <option value="Permanent marker (Red)">Permanent marker (Red)</option>
+        <option value="Printouts">Printouts</option>
+        <option value="Rubber bands (nos)">Rubber bands (nos)</option>
+        <option value="Scissors (nos)">Scissors (nos)</option>
+        <option value="Sharpener (nos)">Sharpener (nos)</option>
+        <option value="Sketch pens (Pack of 10 colours)">Sketch pens (Pack of 10 colours)</option>
+        <option value="Stapler">Stapler</option>
+        <option value="Stapler pin">Stapler pin</option>
+        <option value="Water colours mini">Water colours mini</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" name="custom_item_name" class="custom-item-input" placeholder="Enter Item Name" style="display:none;" />
+                </td>
                 <td><input type="number" name="quantity" min="1" value="1" required></td>
                 <td><input type="number" name="price_per_unit" min="0" value="0" required></td>
                 <td><input type="text" name="total_price" value="0" readonly></td>
@@ -49,7 +107,6 @@
             `;
             itemsTable.appendChild(row);
 
-            // Add event listener for quantity and price changes
             const quantityInput = row.querySelector("input[name='quantity']");
             const priceInput = row.querySelector("input[name='price_per_unit']");
             const totalPriceInput = row.querySelector("input[name='total_price']");
@@ -62,8 +119,20 @@
 
             quantityInput.addEventListener("input", updateTotalPrice);
             priceInput.addEventListener("input", updateTotalPrice);
+        }
 
-            saveItemsToLocalStorage();
+        // Handle "Other" selection
+        function handleItemChange(selectElement) {
+            const row = selectElement.closest('tr');
+            const customItemInput = row.querySelector('.custom-item-input');
+
+            if (selectElement.value === "Other") {
+                customItemInput.style.display = "inline-block";
+                customItemInput.required = true;
+            } else {
+                customItemInput.style.display = "none";
+                customItemInput.required = false;
+            }
         }
 
         // Function to delete a row
@@ -71,7 +140,6 @@
             const row = button.closest("tr");
             row.remove();
             updateRowNumbers();
-            saveItemsToLocalStorage();
         }
 
         // Update row numbers after deleting a row
@@ -83,39 +151,23 @@
             });
         }
 
-        // Save the items to localStorage
-        function saveItemsToLocalStorage() {
-            const workshopItems = [];
-            itemsTable.querySelectorAll("tr").forEach(row => {
-                const itemName = row.querySelector("input[name='item_name']").value;
-                const quantity = parseInt(row.querySelector("input[name='quantity']").value);
-                const pricePerUnit = parseFloat(row.querySelector("input[name='price_per_unit']").value);
-                const totalPrice = parseFloat(row.querySelector("input[name='total_price']").value);
-
-                if (itemName && quantity > 0 && pricePerUnit >= 0) {
-                    workshopItems.push({
-                        sno: row.children[0].textContent,
-                        item_name: itemName,
-                        quantity: quantity,
-                        price_per_unit: pricePerUnit,
-                        total_price: totalPrice
-                    });
-                }
-            });
-
-            localStorage.setItem("workshopItems", JSON.stringify(workshopItems));
-        }
+        // Add initial row on page load
+        document.getElementById("addRowButton").addEventListener("click", addRow);
 
         // Load saved items from localStorage on page load
         window.onload = function () {
-            const savedItems = JSON.parse(localStorage.getItem("workshopItems"));
+            const savedItems = JSON.parse(localStorage.getItem("items"));
             if (savedItems && Array.isArray(savedItems)) {
                 savedItems.forEach(item => {
                     addRow();
                     const lastRow = itemsTable.querySelector("tr:last-child");
-                    const inputs = lastRow.querySelectorAll("input");
+                    const inputs = lastRow.querySelectorAll("input, select");
 
-                    inputs[0].value = item.item_name;
+                    inputs[0].value = item.item_name === "Other" ? "Other" : item.item_name;
+                    if (item.item_name === "Other") {
+                        lastRow.querySelector("input[name='custom_item_name']").value = item.custom_item_name;
+                        lastRow.querySelector("input[name='custom_item_name']").style.display = "inline-block";
+                    }
                     inputs[1].value = item.quantity;
                     inputs[2].value = item.price_per_unit;
                     inputs[3].value = item.total_price;
@@ -123,29 +175,24 @@
             }
         };
 
-        // Add initial row on page load if no items in localStorage
-        if (localStorage.getItem("workshopItems") === null) {
-            addRow(); // Adds a row if there are no saved items
-        }
-
-        // Add initial row when the 'Add Row' button is clicked
-        document.getElementById("addRowButton").addEventListener("click", addRow);
-
         // Handle form submission
         document.getElementById("itemsForm").addEventListener("submit", (event) => {
             event.preventDefault();
 
-            const workshopItems = [];
+            const items = [];
             itemsTable.querySelectorAll("tr").forEach(row => {
-                const itemName = row.querySelector("input[name='item_name']").value;
+                const itemNameSelect = row.querySelector("select[name='item_name']").value;
+                const customItemName = row.querySelector("input[name='custom_item_name']").value;
                 const quantity = parseInt(row.querySelector("input[name='quantity']").value);
                 const pricePerUnit = parseFloat(row.querySelector("input[name='price_per_unit']").value);
                 const totalPrice = parseFloat(row.querySelector("input[name='total_price']").value);
 
-                if (itemName && quantity > 0 && pricePerUnit >= 0) {
-                    workshopItems.push({
+                const finalItemName = itemNameSelect === "Other" ? customItemName : itemNameSelect;
+
+                if (finalItemName && quantity > 0 && pricePerUnit >= 0) {
+                    items.push({
                         sno: row.children[0].textContent,
-                        item_name: itemName,
+                        item_name: finalItemName,
                         quantity: quantity,
                         price_per_unit: pricePerUnit,
                         total_price: totalPrice
@@ -154,10 +201,9 @@
             });
 
             // Save the items to localStorage
-            localStorage.setItem("workshopItems", JSON.stringify(workshopItems));
-            // alert("Items saved to localStorage successfully!");
+            localStorage.setItem("items", JSON.stringify(items));
 
-            window.location.href = './workshop_summary';  // Redirect to the workshop summary page
+            window.location.href = './workshop_summary'; // Redirect to summary page
         });
     </script>
 </body>
