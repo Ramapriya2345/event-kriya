@@ -11,43 +11,64 @@
             float: right;
             margin-bottom: 10px;
         }
-
         .buttons {
-            bottom: 20px;
-            left: 50%;
-            display: flex;
-            justify-content: space-between;
-            width: 60%;
-            /* Adjust the width as needed */
-            max-width: 400px;
-            /* Optionally limit the max width */
-        }
+    bottom: 20px;
+    left: 50%;
+    display: flex;
+    justify-content: space-between;
+    width: 60%; /* Adjust the width as needed */
+    max-width: 400px; /* Optionally limit the max width */
+}
 
-        .back-button,
-        #submit-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            color: white;
-        }
+.back-button, #submit-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
 
-        .back-button {
-            background-color: #4CAF50;
-        }
+.back-button {
+    background-color: #4CAF50;
+}
 
-        #submit-btn {
-            background-color: #4CAF50;
-            margin-left: 5px !important;
-        }
+#submit-btn {
+    background-color: #008CBA;
+}
+.buttons {
+    bottom: 20px;
+
+    display: flex;
+    justify-content: space-between;
+    width: 60%; /* Adjust the width as needed */
+    max-width: 400px; /* Optionally limit the max width */
+}
+
+.back-button, #submit-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+#submit-btn {
+    background-color: #4CAF50;
+   
+    margin-left: 5px !important;
+}
+
+
 
         .table-container {
             position: relative;
             margin-bottom: 30px;
         }
+        
     </style>
-
+ 
 </head>
 
 <body>
@@ -55,11 +76,10 @@
         <h1>Event and Presentation Preview</h1>
 
         <div class="buttons">
-            <button id="submit-btn">Submit</button>
+            <button  id="submit-btn">Submit</button>
         </div>
     </div>
 </body>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const previewContainer = document.getElementById('preview-container');
@@ -100,6 +120,7 @@
                 <button class="edit-btn" onclick="location.href='{{ url_for('presentation_form') }}'">Edit</button>
                 <h3>Event Details</h3>
                 <table>
+                    
                     <tr>
                         <td>Event Description</td>
                         <td>${eventDetails.event_description || 'Not provided'}</td>
@@ -135,6 +156,7 @@
                 <button class="edit-btn" onclick="location.href='{{ url_for('presentation_detail') }}'">Edit</button>
                 <h3>Secretary Details</h3>
                 <table>
+                   
                     ${['secretary1_name', 'secretary1_roll_number', 'secretary1_mobile', 'secretary2_name', 'secretary2_roll_number', 'secretary2_mobile'].map(key => `
                         <tr>
                             <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
@@ -145,6 +167,7 @@
 
                 <h3>Convenor Details</h3>
                 <table>
+                   
                     ${['convenor1_name', 'convenor1_roll_number', 'convenor1_mobile', 'convenor2_name', 'convenor2_roll_number', 'convenor2_mobile'].map(key => `
                         <tr>
                             <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
@@ -155,6 +178,7 @@
 
                 <h3>Volunteer Details</h3>
                 <table>
+                   
                     ${['volunteer1_name', 'volunteer1_roll_number', 'volunteer1_mobile', 'volunteer2_name', 'volunteer2_roll_number', 'volunteer2_mobile'].map(key => `
                         <tr>
                             <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
@@ -165,6 +189,7 @@
 
                 <h3>Faculty Advisor Details</h3>
                 <table>
+                  
                     ${['faculty_advisor_name', 'faculty_advisor_designation', 'faculty_advisor_contact'].map(key => `
                         <tr>
                             <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
@@ -175,6 +200,7 @@
 
                 <h3>Judge Details</h3>
                 <table>
+                
                     ${['judge_name', 'judge_designation', 'judge_contact'].map(key => `
                         <tr>
                             <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
@@ -185,76 +211,58 @@
             `;
             previewContainer.appendChild(presentationSection);
         }
-
-        // Presentation Items Section (only add if presentationItems exists)
         if (presentationItems && presentationItems.some(item => item.sno && item.item_name && item.quantity && item.price_per_unit && item.total_price)) {
-            const itemsSection = document.createElement('div');
-            itemsSection.classList.add('section');
+    const eventItemsContainer = document.getElementById('presentationItems');
+    
+    if (eventItemsContainer) { // Check if the placeholder exists
+        let itemsTableHTML = `
+            <div class="event-header">
+                <h2>Items:</h2>
+                <button class="edit-btn" onclick="location.href='{{ url_for('items_ppst') }}'">Edit</button>
+            </div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>S.NO.</th>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Price per Unit</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
 
-            // Create the table container
-            const table = document.createElement('table');
-            table.setAttribute('border', '1');
+        presentationItems.forEach(item => {
+            if (item.sno && item.item_name && item.quantity && item.price_per_unit && item.total_price) {
+                itemsTableHTML += `
+                    <tr>
+                        <td>${item.sno}</td>
+                        <td>${item.item_name}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.price_per_unit}</td>
+                        <td>${item.total_price}</td>
+                    </tr>
+                `;
+            }
+        });
 
-            // Create table headers
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
+        itemsTableHTML += `
+                </tbody>
+            </table>
+        `;
 
-            // Create the table header cells
-            const headers = ['S.NO.', 'Item Name', 'Quantity', 'Price per Unit', 'Total Price'];
-            headers.forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
+        eventItemsContainer.innerHTML = itemsTableHTML;
+    } else {
+        console.error('Element with ID "presentationItems" not found.');
+    }
+} else {
+    const eventItemsContainer = document.getElementById('presentationItems');
+    if (eventItemsContainer) {
+        eventItemsContainer.innerHTML = '<p>No event items found.</p>';
+    }
+}
 
-            // Create table body
-            const tbody = document.createElement('tbody');
-
-            // Loop through the presentationItems and create rows
-            presentationItems.forEach(item => {
-                if (item.sno && item.item_name && item.quantity && item.price_per_unit && item.total_price) {
-                    const row = document.createElement('tr');
-
-                    // Create individual table cells for each item
-                    const cell1 = document.createElement('td');
-                    cell1.textContent = item.sno;
-                    row.appendChild(cell1);
-
-                    const cell2 = document.createElement('td');
-                    cell2.textContent = item.item_name;
-                    row.appendChild(cell2);
-
-                    const cell3 = document.createElement('td');
-                    cell3.textContent = item.quantity;
-                    row.appendChild(cell3);
-
-                    const cell4 = document.createElement('td');
-                    cell4.textContent = item.price_per_unit;
-                    row.appendChild(cell4);
-
-                    const cell5 = document.createElement('td');
-                    cell5.textContent = item.total_price;
-                    row.appendChild(cell5);
-
-                    // Append the row to the tbody
-                    tbody.appendChild(row);
-                }
-            });
-
-            table.appendChild(tbody);
-            itemsSection.appendChild(table);
-
-            // Append the items section to the preview container
-            previewContainer.appendChild(itemsSection);
-        } else {
-            // If no items, show a message
-            const itemsSection = document.createElement('div');
-            itemsSection.classList.add('section');
-            itemsSection.innerHTML = '<p>No presentation items found.</p>';
-            previewContainer.appendChild(itemsSection);
-        }
 
         // Additional Event Details Section (only add if storedData exists)
         if (storedData) {
@@ -264,26 +272,30 @@
                 <h3>Additional Event Details:</h3>
                 <button class="edit-btn" onclick="location.href='{{ url_for('presentation_page') }}'">Edit</button>
                 <table>
-                    <tr><td>Day</td><td>${storedData.day}</td></tr>
-                    <tr><td>Time</td><td>${storedData.time}</td></tr>
-                    <tr><td>Venue</td><td>${storedData.venue}</td></tr>
-                    <tr><td>Maximum Number of Participants</td><td>${storedData.max_participants}</td></tr>
-                    <tr><td>Maximum Number of Teams</td><td>${storedData.max_teams}</td></tr>
+                    
+                    <tr><td>Day</td><td>${storedData['day'] || 'N/A'}</td></tr>
+                    <tr><td>Expected No. of Participants</td><td>${storedData['expected_participants'] || 'N/A'}</td></tr>
+                    <tr><td>Team Size</td><td>${storedData['team_size_min'] || 'N/A'} - ${storedData['team_size_max'] || 'N/A'}</td></tr>
+                    <tr><td>Halls Required</td><td>${storedData['halls_required'] || 'N/A'}</td></tr>
+                    <tr><td>Reason for Halls</td><td>${storedData['hall_reason'] || 'N/A'}</td></tr>
+                    <tr><td>Preferred Halls</td><td>${storedData['preferred_halls'] || 'N/A'}</td></tr>
+                    <tr><td>Reason for Preferred Halls</td><td>${storedData['preferred_hall_reason'] || 'N/A'}</td></tr>
+                    <tr><td>Duration of the Event</td><td>${storedData['duration'] || 'N/A'}</td></tr>
+                    <tr><td>Start to End Time</td><td>${storedData['time_slot'] || 'N/A'}</td></tr>
+                    <tr><td>No of Extension Boxes</td><td>${storedData['extension_boxes'] || 'N/A'}</td></tr>
+                    <tr><td>Reason for Extension Boxes</td><td>${storedData['extension_box_reason'] || 'N/A'}</td></tr>
                 </table>
             `;
             previewContainer.appendChild(eventDetailsSection);
         }
-        document.getElementById('submit-btn').addEventListener('click', async (event) => {
-            // Disable the button to prevent multiple clicks
-            const submitButton = document.getElementById('submit-btn');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...'; // Optional: change button text to indicate submission
 
+        // Handle the submit button
+        document.getElementById('submit-btn').addEventListener('click', async () => {
             const allData = {
                 presentationData: JSON.parse(localStorage.getItem('presentationData')),
                 presentationDetails: JSON.parse(localStorage.getItem('presentationDetails')),
                 presentationFormData: JSON.parse(localStorage.getItem('presentationFormData')),
-                presentationItems: JSON.parse(localStorage.getItem('presentationItems')),
+                presentationItems:JSON.parse(localStorage.getItem('presentationItems')),
                 associationName: associationName,
                 presentationName: presentationName
             };
@@ -305,10 +317,6 @@
             } catch (error) {
                 console.error('Error submitting data:', error);
                 alert('Failed to submit data. Please try again.');
-            } finally {
-                // Re-enable the button in case of failure, if needed
-                submitButton.disabled = false;
-                submitButton.textContent = 'Submit'; // Reset button text
             }
         });
     });
