@@ -1412,7 +1412,6 @@ def presentation_page():
             'time_slot': request.form.get('time_slot'),
             'extension_boxes': request.form.get('extension_boxes'),
             'extension_box_reason': request.form.get('extension_box_reason'),
-            'extension_box':request.form.get('extension_box'), 
         }
         # Store the collected data in the session
         session['presentation_data'] = presentation_data
@@ -1727,8 +1726,8 @@ def generate_pdf_content_pp(filepath,event_data):
     pdf.line(margin - 20, height - 80, width - margin, height - 80)
 
     # Draw vertical lines from the top horizontal line to the bottom horizontal line
-    pdf.line(margin - 20, height - 50, margin - 20, height - 570)  # Left vertical line
-    pdf.line(width - margin, height - 50, width - margin, height - 570)  # Right vertical line
+    pdf.line(margin - 20, height - 50, margin - 20, height - 500)  # Left vertical line
+    pdf.line(width - margin, height - 50, width - margin, height - 500)  # Right vertical line
 
     # Draw text fields for event data
     pdf.drawString(margin, height - 110, f"Expected No. of Participants: {event_data.get('expected_participants', '')} ")
@@ -1783,11 +1782,11 @@ def generate_pdf_content_pp(filepath,event_data):
     # Draw a line after number and reason
     pdf.line(margin - 20, height - 500, width - margin, height - 500)
 
-    pdf.drawString(margin, height - 525, f"Extension Box: {event_data.get('extension_box', '')} ")
+    # pdf.drawString(margin, height - 525, f"Extension Box: {event_data.get('extension_box', '')} ")
     # pdf.drawString(margin, height - 470, f"Extension Box: {event_data.get('extensionBox', '')}")
 
     # Draw a line after the extension box
-    pdf.line(margin - 20, height - 570, width - margin, height - 570)
+    # pdf.line(margin - 20, height - 570, width - margin, height - 570)
 
     # Draw signature fields
     pdf.drawString(margin-15, height - 610, f"Signature of the Secretary: ")
