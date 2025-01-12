@@ -221,6 +221,13 @@
                     <td>{{ form_data.speaker_designation }}</td>
                     <td>{{ form_data.speaker_contact }}</td>
                 </tr>
+                {% if form_data.speaker_name_2 and form_data.speaker_designation_2 and form_data.speaker_contact_2 %}
+<tr>
+    <td>{{ form_data.speaker_name_2 }}</td>
+                    <td>{{ form_data.speaker_designation_2 }}</td>
+                    <td>{{ form_data.speaker_contact_2 }}</td>
+</tr>
+{% endif %}
             </table>
         </div>
         <div class="signature">
@@ -233,7 +240,7 @@
             <!-- If signature is stored as a base64-encoded image -->
             <!-- <img src="data:image/png;base64,{{ form_data.speaker_signature }}" alt="Speaker Signature" style="max-width: 200px; max-height: 100px;"> -->
             {% else %}
-            <p>No signature available</p>
+            <!-- <p>No signature available</p> -->
             {% endif %}
         </div>
 

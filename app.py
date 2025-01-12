@@ -949,6 +949,10 @@ def workshop_detail():
                 'speaker_designation': request.form['speaker_designation'],
                 'speaker_contact': request.form['speaker_contact'],
                 'speaker_signature': request.form['speaker_signature'],
+                 'speaker_name_2': request.form['speaker_name'],
+                'speaker_designation_2': request.form['speaker_designation'],
+                'speaker_contact_2': request.form['speaker_contact'],
+                'speaker_signature_2': request.form['speaker_signature'],
             }
 
             

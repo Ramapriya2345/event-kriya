@@ -70,7 +70,7 @@
                             </tr>
                         `;
                     } else if (value) {
-                        if (key !== 'speaker_signature') {
+                        if (key !== 'speaker_signature' || key!='speaker_signature_2') {
                             workshopDetailsHTML += `
             <tr>
                 <td>${formatKey(key)}</td>
